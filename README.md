@@ -1,2 +1,1 @@
-# mongodb-backup-s3
-A repository for MongoDB backup to S3
+This repository is empty. Any task executed on it should be considered a new capability and needs to be created.
