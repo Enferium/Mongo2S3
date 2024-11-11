@@ -39,7 +39,6 @@ func CleanupOldBackups(config *Config) (int, error) {
 				latestObjectFound = true
 			}
 		} else {
-			// Vérifier la date pour supprimer si l'objet est trop vieux
 			if time.Since(object.LastModified).Hours() > float64(24*config.RetentionDays) {
 				err = minioClient.RemoveObject(ctx, config.S3BucketName, object.Key, minio.RemoveObjectOptions{})
 				if err != nil {

@@ -24,12 +24,12 @@ func BackupAndUpload(config *Config) error {
 
 	log.Printf("mongo dump command: %v", dumpCmd)
 
-	// Exécution de la commande de sauvegarde
+	// Execute the command mongodump
 	if err := dumpCmd.Run(); err != nil {
 		return fmt.Errorf("error while backuping MongoDB: %w", err)
 	}
 
-	// Initialisation du client S3
+	// Init s3 client
 	minioClient, err := minio.New(config.S3Endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(config.S3AccessKey, config.S3SecretKey, ""),
 		Secure: true,
@@ -41,12 +41,11 @@ func BackupAndUpload(config *Config) error {
 
 	s3Key := filepath.Join(config.S3Prefix, fileName)
 
-	// Upload du fichier sur S3
+	// Upload to S3
 	_, err = minioClient.FPutObject(context.Background(), config.S3BucketName, s3Key, fileName, minio.PutObjectOptions{})
 	if err != nil {
 		return fmt.Errorf("upload error: %w", err)
 	}
 
-	// Suppression du fichier local après upload
 	return os.Remove(fileName)
 }
