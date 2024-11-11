@@ -5,13 +5,14 @@ import (
 )
 
 func main() {
-	log.Println("Démarrage du programme...")
+	log.Println("Starting...")
 	config, err := LoadConfig()
-	log.Println("Configuration chargée")
+	log.Println("Configuration loaded")
 	if err != nil {
-		log.Fatalf("Erreur de chargement de la configuration: %v", err)
+		log.Fatalf("Error on configuration load : %v", err)
+		return
 	}
 	StartScheduler(config)
-	log.Println("scjheduler démarré")
-	select {} // Bloque l'exécution pour garder le programme actif
+	log.Println("scheduler started")
+	select {}
 }
